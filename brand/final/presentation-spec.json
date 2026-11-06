@@ -1,0 +1,53 @@
+{
+  "brand": "PobreFlix",
+  "tagline": "Filme de graça, sem cadastro",
+  "brief": "Catálogo gratuito de filmes, séries, animes e doramas para brasileiros jovens, usado à noite e no celular. Precisa ser irreverente sem ser tosco, reconhecível a 16 px e fugir do play genérico e do vermelho da categoria.",
+  "adjectives": [
+    "irreverente",
+    "acessível",
+    "noturno",
+    "esperto"
+  ],
+  "criteria": "Sucesso: uma ideia em uma frase, legível a 16 px, funciona em uma cor, diferente do play em círculo e do vermelho de streaming.",
+  "industry": "consumer-app",
+  "mockups": [
+    "app-icon",
+    "website",
+    "favicon-tab",
+    "social",
+    "sticker",
+    "tshirt"
+  ],
+  "nav": [
+    "Filmes",
+    "Séries",
+    "Animes"
+  ],
+  "brand_color": "#6F74FC",
+  "tile_color": "#100D20",
+  "greyscale": false,
+  "designer": "PobreFlix",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Meia-entrada",
+      "symbol": "meia-symbol.svg",
+      "lockup": "meia-horizontal.svg",
+      "idea": "O play pela metade do preço: o botão de play cortado ao meio, com as metades deslocadas.",
+      "rationale": [
+        "Pega um signo universal (play) e dá um gesto próprio: o corte da meia-entrada, piada de quem é pobre e conhece o Brasil",
+        "Anil herdado da marca antiga: continuidade e distância do vermelho que domina streaming",
+        "O mesmo corte vira detalhe do wordmark (o x) e um sistema: divisores, loaders e transições cortadas",
+        "Corte próprio para 16–32 px com vão maior; testado em uma cor e invertido"
+      ],
+      "symbol_on_tile": "meia-symbol-anil.svg",
+      "lockup_on_dark": "meia-horizontal-on-dark.svg"
+    }
+  ],
+  "recommendation": "Meia-entrada: a ideia mais simples de explicar e a mais forte em tamanho pequeno entre as três.",
+  "next_steps": [
+    "Aplicar símbolo, favicon e ícones no site",
+    "Pesquisa de marca registrada por um profissional (não feita aqui)",
+    "Estender o corte para loaders e transições do player"
+  ]
+}

@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+
+/*
+  PobreFlix — sistema de design "locadora de bairro"
+  Noite de cinema em anil, com a etiqueta amarela de preço (R$ 0,00) como único
+  acento quente. Tipos: Bricolage Grotesque (títulos) + Instrument Sans (interface).
+*/
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-sm: 35.5rem;  /* 568px */
+  --breakpoint-md: 50rem;    /* 800px */
+  --breakpoint-lg: 60rem;    /* 960px */
+  --breakpoint-xl: 68.75rem; /* 1100px */
+  --breakpoint-2xl: 78.75rem;/* 1260px */
+
+  --color-noite: #100d20;     /* fundo */
+  --color-sala: #1b1733;      /* superfície */
+  --color-poltrona: #262046;  /* superfície elevada */
+  --color-cortina: #322a5c;   /* hover de superfície */
+  --color-linha: #3a3360;     /* bordas */
+  --color-anil: #6f74fc;      /* marca */
+  --color-anil-claro: #8a8efd;
+  --color-anil-escuro: #5a5fe6;
+  --color-etiqueta: #ffd23f;  /* acento de preço: use com parcimônia */
+  --color-papel: #f4f2ff;     /* texto */
+  --color-papel-2: #d9d5f0;   /* texto secundário */
+  --color-nevoa: #a9a3c9;     /* texto discreto */
+  --color-perigo: #ff6b6b;
+  --color-ok: #44c767;
+
+  --font-display: 'Bricolage Grotesque', 'Instrument Sans', system-ui, sans-serif;
+  --font-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --ease-cine: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --animate-fade-in: fade-in 0.4s var(--ease-cine) both;
+  --animate-player-in: player-in 0.3s var(--ease-cine) both;
+  --animate-poster-in: poster-in 1s var(--ease-cine) both;
+  --animate-sk: sk 1.4s ease-in-out infinite;
+  --animate-dot: dot linear forwards;
+  --animate-aurora-bg: aurora-bg 60s linear infinite;
+
+  @keyframes fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes player-in { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: none; } }
+  @keyframes poster-in { from { opacity: 0; transform: translateY(20px) rotate(4deg); } to { opacity: 1; transform: rotate(2deg); } }
+  @keyframes sk { from { background-position: 100% 0; } to { background-position: -50% 0; } }
+  @keyframes dot { to { width: 100%; } }
+  @keyframes aurora-bg {
+    from { background-position: 50% 50%, 50% 50%; }
+    to { background-position: 350% 50%, 350% 50%; }
+  }
+}
+
+/* Medidas compartilhadas (não viram utilitários de cor/tamanho do tema) */
+:root {
+  --header-h: 64px;
+  --page-pad: 20px;
+  --content-w: 1350px;
+}
+@media (min-width: 35.5rem) { :root { --page-pad: 40px; } }
+@media (min-width: 60rem) { :root { --page-pad: 60px; } }
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; color-scheme: dark; }
+  html, body { background: var(--color-noite); color: var(--color-papel); }
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.no-scroll { overflow: hidden; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--color-anil); outline-offset: 2px; }
+  ::selection { background: var(--color-anil); color: var(--color-noite); }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- utilitários próprios ---------- */
+@utility container-page {
+  width: 100%;
+  max-width: calc(var(--content-w) + var(--page-pad) * 2);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+@utility px-page { padding-inline: var(--page-pad); }
+@utility pt-header { padding-top: var(--header-h); }
+@utility h-header { height: var(--header-h); }
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ---------- peças reutilizadas em várias telas ---------- */
+@layer components {
+  .btn {
+    @apply inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-[15px] font-semibold whitespace-nowrap
+      transition-[background-color,color,border-color,transform] duration-200 active:scale-[0.98]
+      disabled:pointer-events-none disabled:opacity-45;
+  }
+  .btn svg { @apply size-[22px] flex-none; }
+  .btn-primary { @apply bg-anil text-noite hover:bg-anil-claro active:bg-anil-escuro; }
+  .btn-outline { @apply border-2 border-anil text-anil hover:border-anil-claro hover:bg-anil/15 hover:text-anil-claro; }
+  .btn-ghost { @apply text-nevoa hover:text-papel; }
+  .btn-icon { @apply w-11 px-0; }
+
+  .chip {
+    @apply inline-flex h-8 items-center rounded-full bg-poltrona px-3.5 text-sm font-semibold whitespace-nowrap text-papel-2
+      transition-colors hover:bg-cortina hover:text-papel aria-pressed:bg-anil aria-pressed:text-noite;
+  }
+  .chip.is-active { @apply bg-anil text-noite; }
+
+  .tag {
+    @apply inline-flex h-5 items-center rounded-sm border border-linha px-1.5 text-xs leading-none font-semibold text-nevoa;
+  }
+  .tag.accent { @apply border-anil text-anil; }
+
+  /* etiqueta de preço da locadora — o único acento amarelo */
+  .price-tag {
+    @apply inline-flex h-6 -rotate-3 items-center rounded-[3px] bg-etiqueta px-2 font-display text-[13px] leading-none font-extrabold text-noite;
+    clip-path: polygon(6px 0, 100% 0, 100% 100%, 6px 100%, 0 50%);
+    padding-left: 12px;
+  }
+
+  .link { @apply font-semibold text-anil hover:text-anil-claro hover:underline; }
+
+  .sk {
+    background: linear-gradient(90deg, #1b1733 0%, #2a2350 40%, #1b1733 80%);
+    background-size: 300% 100%;
+    @apply animate-sk;
+  }
+  .sk-line { @apply my-1.5 h-3.5 rounded-sm; }
+
+  .spinner {
+    @apply size-11 animate-spin rounded-full border-4 border-white/15 border-t-anil;
+  }
+
+  .select { @apply relative inline-flex; }
+  .select select {
+    @apply h-10 max-w-[70vw] cursor-pointer appearance-none rounded-full border-0 bg-poltrona pr-10 pl-4 text-[15px] font-semibold hover:bg-cortina;
+  }
+  .select::after {
+    content: '';
+    @apply pointer-events-none absolute top-1/2 right-4 -mt-1.5 size-2 rotate-45 border-r-2 border-b-2 border-current;
+  }
+
+  .field { @apply flex flex-col gap-1.5 text-sm font-semibold; }
+  .field input {
+    @apply h-11 rounded-lg border-2 border-linha bg-noite px-3 font-normal outline-0 focus:border-anil;
+  }
+
+  .page-title { @apply font-display text-[28px] leading-tight font-bold tracking-[-0.02em] lg:text-[38px]; }
+  .section-title { @apply font-display text-xl leading-snug font-bold tracking-[-0.01em] lg:text-[26px]; }
+  .meta { @apply text-sm text-nevoa; }
+
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+}
+
+/* ---------- apoio aos componentes do VengeanceUI (MIT) — versão escura fixa ---------- */
+@keyframes border-beam { 100% { offset-distance: 100%; } }
+
+@property --glow-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes glow-angle-rotate { to { --glow-angle: 1turn; } }
+/* dentro de @layer para que o utilitário [animation-play-state:paused] (prop `paused`) consiga vencer */
+@layer components {
+  .glow-conic {
+    border-image: conic-gradient(from var(--glow-angle),
+        var(--glow-color-1), var(--glow-color-2), var(--glow-color-3), var(--glow-color-4), var(--glow-color-5),
+        var(--glow-color-6), var(--glow-color-7), var(--glow-color-8), var(--glow-color-9), var(--glow-color-10),
+        var(--glow-color-1)) 1;
+    animation: glow-angle-rotate var(--glow-animation-duration, 4s) linear infinite;
+  }
+}
+
+.spotlight-nav { --spotlight-color: rgba(111, 116, 252, 0.22); --ambience-color: #fff; }
